@@ -47,14 +47,26 @@ public:
 	{
 		_head=CopyGeneralized(g._head);
 	}
-	Generalized& operator=(Generalized g)
+	/*Generalized& operator=(Generalized g)
 	{
 		swap(_head, g._head);
 		return *this;
+	}*/
+	Generalized& operator=(const Generalized& g)
+	{
+		if (this != &g)
+		{
+			GeneralizedNode *tmp = CopyGeneralized(g._head);
+			_DelGeneralized(_head);
+			_head =tmp;
+		}
+		return *this;
 	}
+
 	~Generalized()
 	{
 		_DelGeneralized(_head);
+		_head = NULL;
 	}
 	void Print()
 	{
@@ -62,45 +74,36 @@ public:
 	}
 	size_t Size()
 	{
-		size_t count = 0;
-		count=_Size(_head,count);
-		return count;
+		return _Size(_head);
 	}
 	size_t Depth()
 	{
-		size_t mdepth = 1;
-		_Depth(_head, 1,mdepth);
-		return mdepth;
+		return _Depth(_head);
 	}
 protected:
-	size_t _Depth(GeneralizedNode *head,size_t depth,size_t& mdepth)
+	size_t _Depth(GeneralizedNode *head)
 	{
-		if (head == NULL)
-			return depth;
+		int depth = 1;
 		GeneralizedNode* cur = head;
-		cur = cur->_next;
 		while (cur)
 		{
 			if (cur->_type == SUB)
 			{
-				depth++;
-				depth = _Depth(cur->_SubLink,depth,mdepth);
-				if (depth > mdepth)
+				int subdepth = _Depth(cur->_SubLink);
+				if (subdepth+1 > depth)
 				{
-					mdepth = depth;
+					depth = subdepth+1;
 				}
-				depth = 1;
 			}
 			cur = cur->_next;
 		}
 		return depth;
 	}
-	size_t _Size(GeneralizedNode *head,size_t count)
+	size_t _Size(GeneralizedNode *head)
 	{
-		if (_head == NULL)
-			return count;
+		int count = 0;
+		
 		GeneralizedNode* cur = head;
-		cur = cur->_next;
 		while (cur)
 		{
 			if (cur->_type == VALUE)
@@ -109,7 +112,7 @@ protected:
 			}
 			else if (cur->_type == SUB)
 			{
-				count = _Size(cur->_SubLink, count);
+				count += _Size(cur->_SubLink);
 			}
 			cur = cur->_next;
 		}
@@ -125,7 +128,6 @@ protected:
 			if (cur->_type == VALUE)
 			{
 				_cur->_next = new GeneralizedNode(VALUE, cur->_value);
-				cur = cur->_next;
 				_cur = _cur->_next;
 			}
 			else if (cur->_type == SUB)
@@ -134,8 +136,8 @@ protected:
 				_cur->_next = new GeneralizedNode(SUB);
 				_cur = _cur->_next;
 				_cur->_SubLink=CopyGeneralized(cur->_SubLink);
-				cur = cur->_next;
 			}
+			cur = cur->_next;
 		}
 		return chead;
 	}
@@ -200,8 +202,6 @@ protected:
 				cur = cur->_next;
 			}
 		}
-	
-	
 	}
 	GeneralizedNode* _CreatList(const char* &str)
 	{
