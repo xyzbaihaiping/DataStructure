@@ -82,24 +82,25 @@ public:
 	}
 protected:
 	size_t _Depth(GeneralizedNode *head)
+		//深度是计算广义表中最深的表的深度
 	{
-		int depth = 1;
+		int depth = 1;//刚开始默认最深的表深度为1
 		GeneralizedNode* cur = head;
 		while (cur)
 		{
-			if (cur->_type == SUB)
+			if (cur->_type == SUB)//若遇到子表
 			{
-				int subdepth = _Depth(cur->_SubLink);
-				if (subdepth+1 > depth)
+				int subdepth = _Depth(cur->_SubLink);//递归计算子表的深度
+				if (subdepth+1 > depth)//若子表深度加1（广义表的目前最深度）大于原来广义表的深度
 				{
-					depth = subdepth+1;
+					depth = subdepth+1;//重置广义表最深度置
 				}
 			}
 			cur = cur->_next;
 		}
 		return depth;
 	}
-	size_t _Size(GeneralizedNode *head)
+	size_t _Size(GeneralizedNode *head)//广义表中元素的个数
 	{
 		int count = 0;
 		
@@ -151,7 +152,7 @@ protected:
 		while (cur)
 		{
 			del = cur;
-			if (cur->_type == SUB)
+			if (cur->_type == SUB)//遇到子表节点时看做子问题
 			{
 				_DelGeneralized(cur->_SubLink);
 			}
@@ -212,22 +213,22 @@ protected:
 		GeneralizedNode* cur = head;
 		while (*str)
 		{
-			if (IsValue(*str))
+			if (IsValue(*str))//若节点值是合法值
 			{
-				cur->_next = new GeneralizedNode(VALUE,*str);
+				cur->_next = new GeneralizedNode(VALUE,*str);//则创建一个值节点
 				cur = cur->_next;
 				str++;
 			}
-			else if (*str == '(')
+			else if (*str == '(')//遇到'('表示它是一个子表节点
 			{
-				cur->_next = new GeneralizedNode(SUB);
+				cur->_next = new GeneralizedNode(SUB);//创建一个子表节点
 				cur = cur->_next;
-				cur->_SubLink = _CreatList(str);
+				cur->_SubLink = _CreatList(str);//递归解决子表的创建
 			}
-			else if (*str == ')')
+			else if (*str == ')')//遇到')'说明一个广义表或者子表结束
 			{
 				++str;
-				return head;
+				return head;//返回子表的头节点，或广义表的头节点
 			}
 			else
 				++str;
