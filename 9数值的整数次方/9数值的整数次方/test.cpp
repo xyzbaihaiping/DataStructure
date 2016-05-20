@@ -1,13 +1,25 @@
 #include<iostream>
 using namespace std;
 bool invalid = false;
+//double Calculate(double base,int exp)
+//{
+//	double result = 1;
+//	while (exp--)
+//	{
+//		result *= base;
+//	}
+//	return result;
+//}
 double Calculate(double base,int exp)
 {
-	double result = 1;
-	while (exp--)
-	{
+	if (exp == 0)
+		return 1;
+	if (exp == 1)
+		return base;
+	double result = Calculate(base, exp>>1);
+	result *= result;
+	if (exp & 1 == 1)
 		result *= base;
-	}
 	return result;
 }
 bool Equal(double left, double right)
@@ -34,7 +46,7 @@ double MyPower(double base,int exp)
 }
 int main()
 {
-	cout << MyPower(3,0) << endl;
+	cout << MyPower(2,-2) << endl;
 	getchar();
 	return 0;
 }
