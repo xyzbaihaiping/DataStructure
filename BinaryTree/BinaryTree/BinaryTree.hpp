@@ -222,7 +222,6 @@ protected:
 			node= new Node(a[index]);//数组a中是前序遍历的二叉树，先创建根节点
 			node->_left = _CreatBinaryTree(a, invalid, size, ++index);//创建左子树
 			node->_right = _CreatBinaryTree(a, invalid, size, ++index);//创建右子数
-			return node;
 		}
 		return node;
 	}
