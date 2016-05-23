@@ -4,8 +4,6 @@ using namespace std;
 
 void ReOrderOddEven(int *data,size_t len,bool (*Func)(int))
 {
-
-
 	assert(data && len>0);
 	int *left = data;
 	int *right = data + len - 1;
