@@ -9,6 +9,7 @@ void ReOrderOddEven(int *data,size_t len,bool (*Func)(int))
 	int *right = data + len - 1;
 	while (left < right)
 	{
+
 		while (left < right &&  !Func(*left))
 			left++;
 		while (left < right && Func(*right))
