@@ -12,6 +12,9 @@ struct ListNode
 	ListNode* _next;
 };
 
+
+
+
 ListNode* FindKTheToTail(ListNode* pHead, size_t k)
 {
 	if (pHead == NULL || k == 0)
