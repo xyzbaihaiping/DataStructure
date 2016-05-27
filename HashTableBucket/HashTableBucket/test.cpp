@@ -26,11 +26,22 @@ void TestInt()
 	/*tab.Remove(0);
 	tab.Print();*/
 	ht.Print();
-
+	
+}
+void TestString()
+{
+	HashTable<string, string> ht(0);
+	ht.Insert("hhh","jjjj");
+	ht.Insert("het", "haxi");
+	ht.Insert("kk", "kkkk");
+	HashTableNode<string, string>* node=ht.Find("het");
+	ht.Print();
+	cout << node->_key<< node->_value << endl;
 }
 int main()
 {
-	TestInt();
+	//TestInt();
+	TestString();
 	getchar();
 	return 0;
 }
