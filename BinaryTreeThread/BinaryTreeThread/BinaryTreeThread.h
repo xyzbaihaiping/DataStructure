@@ -17,10 +17,10 @@ struct BinaryTreeNode_Thd
 	, _rightTag(LINK)
 	{}
 	T _data;
-	BinaryTreeNode_Thd<T>* _left;
-	BinaryTreeNode_Thd<T>* _right;
-	PointerTag _leftTag;
-	PointerTag _rightTag;
+	BinaryTreeNode_Thd<T>* _left;//左孩子
+	BinaryTreeNode_Thd<T>* _right;//右孩子
+	PointerTag _leftTag;//左孩子线索化标志
+	PointerTag _rightTag;//右孩子线索化标志
 };
 template<class T>
 class BinaryTreeThd
@@ -100,12 +100,13 @@ protected:
 		if (cur == NULL)
 			return;
 		_InOrderTheading(cur->_left, prev);
-		if (cur->_left == NULL)
+		if (cur->_left == NULL)//线索化前驱
 		{
 			cur->_leftTag = THREAD;
 			cur->_left = prev;
 		}
-		if (prev && prev->_right == NULL)
+		if (prev && prev->_right == NULL)//线索化后继，这里由于本次线索化时并不知道其后继是哪里，
+			//因此后继通过线索化下各节点的前驱时进行线索化
 		{
 			prev->_rightTag = THREAD;
 			prev->_right = cur;
@@ -113,7 +114,7 @@ protected:
 		prev = cur;
 		_InOrderTheading(cur->_right, prev);
 	}
-	void _PrevOrderTheading(Node *cur, Node* &prev)//递归方法中序线索化
+	void _PrevOrderTheading(Node *cur, Node* &prev)//递归方法前序线索化
 	{
 		if (cur == NULL)
 			return;
