@@ -46,7 +46,7 @@ struct HashTableNode
 };
 
 const int _PrimeSize = 28;
-static const unsigned long _PrimeList[_PrimeSize] =
+const unsigned long _PrimeList[_PrimeSize] =
 {
 	53ul, 97ul, 193ul, 389ul, 769ul,
 	1543ul, 3079ul, 6151ul, 12289ul, 24593ul,
