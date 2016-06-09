@@ -1,12 +1,13 @@
+//HashTable.h
 #pragma once
 #include<iostream>
 #include <string>
 using namespace std;
 enum State
 {
-	EMPTY,
-	EXITS,
-	DELETE
+	EMPTY,//空
+	EXITS,//存在
+	DELETE//已删除
 };
 
 template<class K, class V>
@@ -22,17 +23,17 @@ struct HashTableNode
 template<class K>
 struct _HashFunc
 {
-	size_t operator()(const K& key,const size_t& capacity)
+	size_t operator()(const K& key,const size_t& capacity)//哈希函数，仿函数
 	{
 		return key / capacity;
 	}
 
 };
 template<>
-struct _HashFunc<string>
+struct _HashFunc<string>//模板特化
 {
 private:
-	unsigned int _BKDRHash(const char *str)
+	unsigned int _BKDRHash(const char *str)//key为字符串时哈希函数
 	{
 		unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
 		unsigned int hash = 0;
@@ -44,7 +45,7 @@ private:
 		return (hash & 0x7FFFFFFF);
 	}
 public:
-	size_t operator()(const string& key,const size_t& capacity)
+	size_t operator()(const string& key,const size_t& capacity)//仿函数
 	{
 
 		return _BKDRHash(key.c_str()) % capacity;
@@ -89,9 +90,9 @@ public:
 	bool Insert(const K& key, const V& value)
 	{
 		_CheckCapacity();
-		size_t index = Hashfunc(key,_capacity);
+		size_t index = HashFunc()(key, _capacity);
 		size_t i = 1;
-		while (_states[index] == EXITS)
+		while (_states[index] == EXITS)//二次探测
 		{
 			if (_tables[index]._key == key)
 			{
@@ -110,10 +111,10 @@ public:
 
 	bool Find(const K& key)
 	{
-		size_t index = Hashfunc(key,_capacity);
+		size_t index = HashFunc()(key, _capacity);
 		size_t start = index;
 		size_t i = 1;
-		while (_states[index] != EMPTY)
+		while (_states[index] != EMPTY)//根据二次探测法查找
 		{
 			if (_tables[index]._key == key)
 			{
@@ -131,10 +132,10 @@ public:
 	}
 	bool Remove(const K& key)
 	{
-		size_t index = Hashfunc(key,_capacity);
+		size_t index = HashFunc()(key, _capacity);
 		size_t start = index;
 		size_t i = 1;
-		while (_states[index] != EMPTY)
+		while (_states[index] != EMPTY)//根据二次探测法删除
 		{
 			if (_tables[index]._key == key)
 			{
@@ -172,7 +173,7 @@ private:
 		swap(_size, tmp._size);
 		swap(_capacity, tmp._capacity);
 	}
-	void _CheckCapacity()
+	void _CheckCapacity()//增容
 	{
 		if (_size * 10 / _capacity == 6)
 		{
@@ -191,6 +192,5 @@ private:
 	State* _states;//状态表
 	size_t _size;
 	size_t _capacity;
-	HashFunc Hashfunc;
 };
 
