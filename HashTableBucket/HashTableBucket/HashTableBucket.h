@@ -13,7 +13,7 @@ struct _HashFunc
 	}
 };
 template<>
-struct _HashFunc<string>
+struct _HashFunc<string>//string类特化
 {
 
 	static size_t _BKDRHash(const char * str)
@@ -54,7 +54,7 @@ const unsigned long _PrimeList[_PrimeSize] =
 	1572869ul, 3145739ul, 6291469ul, 12582917ul, 25165843ul,
 	50331653ul, 100663319ul, 201326611ul, 402653189ul, 805306457ul,
 	1610612741ul, 3221225473ul, 4294967291ul
-};
+};//素数表，将哈希表容量控制为素数，使用素数做除数可以减少哈希冲突
 template<class K, class V, class HashFunc = _HashFunc<K> >
 class HashTable
 {
