@@ -67,6 +67,25 @@ void TestCountSort()
 	CountSort(a, size,22,100);
 	Print(a, size);
 }
+void TestRadixSort()
+{
+	//int a[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 8 };
+	//int a[] = {4,7,7,2,8,0,1};
+	int a[] = { 33,5,6,89,2,33,55,89,90,123,456,67,89,11,45,78};
+	int size = sizeof(a) / sizeof(a[0]);
+	RadixSort(a, size);
+	Print(a, size);
+}
+
+void TestHeapSort()
+{
+	int a[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 8 };
+	//int a[] = {4,7,7,2,8,0,1};
+	//int a[] = { 33, 5, 6, 89, 2, 33, 55, 89, 90, 123, 456, 67, 89, 11, 45, 78 };
+	int size = sizeof(a) / sizeof(a[0]);
+	HeapSort(a, size);
+	Print(a, size);
+}
 int main()
 {
 	//TestInsertSort();
@@ -75,7 +94,9 @@ int main()
 	//TestBubbleSort();
     // TestQuickSort();
 	//TestMergeSort();
-	TestCountSort();
+	//TestCountSort();
+	//TestRadixSort();
+	TestHeapSort();
 	getchar();
 	return 0;
 }

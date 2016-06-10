@@ -82,15 +82,42 @@ void SelecttSort(int *a, int n)//选择排序
 		right--;
 	}
 }
-//void AdjustDown()
-void HeapSort(int *a, int n)
+void AdjustDown(int *a, int n, int parent)
 {
-
-
-
+	int child = parent * 2 + 1;
+	while (child < n)
+	{
+		if (child + 1 < n && a[child + 1] > a[child])
+		{
+			++child;
+		}
+		if (a[child]>a[parent])
+		{
+			swap(a[child], a[parent]);
+			parent = child;
+			child = parent * 2 + 1;
+		}
+		else
+			break;
+	}
 
 }
+void HeapSort(int *a, int n)
+{
+	assert(a);
+	for (int i = (n-2)/2; i >=0; i--)
+	{
+		AdjustDown(a, n, i);
+	}
+	int end = n - 1;
+	while (end > 0)
+	{
+		swap(a[0],a[end]);
+		AdjustDown(a,end,0);
+		--end;
+	}
 
+}
 int GetKey(int *a, int left,int right)//三数取中法确定key值
 {
 
@@ -275,7 +302,6 @@ void CountSort(int *a, int n,int min,int max)
 	index = 0;
 	for (int i = 0; i < cap; i++)
 	{
-		cout << "tmp[" << i+min << "]" << tmp[i] << endl;
 		while (tmp[i]--)
 		{
 			a[index++] = i+min;
@@ -283,10 +309,54 @@ void CountSort(int *a, int n,int min,int max)
 	}
 	delete[] tmp;
 }
+
+int GetDigit(int *a, int n)
+{
+	int count = 1;
+	int base = 10;
+	for (int i = 0; i < n; i++)
+	{
+		if (a[i] >= base)
+		{
+			count++;
+			base *= 10;
+		}
+	}
+	return count;
+}
 void RadixSort(int *a, int n)
 {
+	assert(a || n > 0);
+	int count[10] = {0};
+	int start[10] = {0};
+	int *bucket = new int[n];
+	int digit = GetDigit(a,n);
+	int base = 1;
+	while (digit > 0)
+	{
+		memset(count, 0, sizeof(int)* 10);
 
-
-
+		for (int j = 0; j < n; j++)
+		{
+			int index = (a[j]/base) % 10;
+			++count[index];
+		}
+		start[0] = 0;
+		for (int i = 1; i < 10; i++)
+		{
+			 start[i] = start[i - 1]+count[i-1];
+		}
+		for (int i = 0; i < n; i++)
+		{
+			int num = (a[i] / base) % 10;
+			int& index = start[num];
+			bucket[index++] = a[i];
+		}
+		digit--;
+		base *= 10;
+		memcpy(a,bucket,sizeof(int)*n);
+	}
+	
+	delete[] bucket;
 }
 
