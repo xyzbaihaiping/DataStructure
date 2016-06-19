@@ -35,6 +35,9 @@ int InversepairsCore(int *data, int *copy, int start, int end)
 	{
 		copy[indexcopy--] = data[j--];
 	}
+
+	for (i = start; i <= end; i++)
+		data[i] = copy[i];
 	return left + right + count;
 }
 int InversePairs(int *data, int length)
