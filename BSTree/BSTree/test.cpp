@@ -1,7 +1,9 @@
 #include "BSTree.h"
 int main()
 {
-	Test();
+	//TestInsert();
+	TestFind();
+	//TestRemove();
 	getchar();
 	return 0;
 }
